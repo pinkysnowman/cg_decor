@@ -70,9 +70,175 @@ minetest.register_node("cg_decor:sunflower", {
 	},
 })
 
+minetest.register_node("cg_decor:window_sill", {
+	description = "Window sill",
+	tiles = {"cg_decor_siding_wall.png"},
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.625, -0.625, -0.5625, 0.625, -0.4375, -0.5},
+			{-0.5, -0.5, -0.5, 0.5, -0.4375, 0.5},
+			{-0.625, -0.625, 0.5, 0.625, -0.4375, 0.5625},
+		}
+	},
+	groups = {tree=1,choppy=2,oddly_breakable_by_hand=1,flammable=2},
+	sounds = default.node_sound_wood_defaults(),
+})
+
+minetest.register_node("cg_decor:wall", {
+	description = "Dryall",
+	tiles = {"cg_decor_siding_wall.png"},
+	groups = {tree=1,choppy=2,oddly_breakable_by_hand=1,flammable=2},
+	sounds = default.node_sound_wood_defaults(),
+})
+
 --------------------------------------------------------------------------------------------
 -- Blocks ----------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------
+
+if minetest.get_modpath("homedecor") then
+
+end
+
+local roof_list = {
+	{"Red",           "#900000:150"},
+	{"Green",         "#006500:200"},
+	{"Dark_grey",     "#202020:200"},
+	{"Silver",        "#b0b0b0:175"},
+	{"Rusty",         "#ffffff:150"},
+}
+
+for i in ipairs(roof_list) do
+	local desc = roof_list[i][1]
+	local color = desc:lower()
+	local value = roof_list[i][2]
+	local extra = ""
+	if color == "rusty" then extra = "^cg_decor_metalroof_overlay_rusty.png" end
+
+	minetest.register_node("cg_decor:metal_roof_"..color, {
+		description = "Metal Roof ("..desc..")",
+		drawtype = "mesh",
+		mesh = "cg_decor_metalroof.obj",
+		tiles = {"(cg_decor_bg.png^[colorize:"..value..")^cg_decor_metalroof_overlay.png"..extra},
+		paramtype = "light",
+		paramtype2 = "facedir",
+		selection_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5,  -0.5,  -0.5, 0.5, -0.25, 0.5},
+				{-0.5, -0.25, -0.25, 0.5,     0, 0.5},
+				{-0.5,     0,     0, 0.5,  0.25, 0.5},
+				{-0.5,  0.25,  0.25, 0.5,   0.5, 0.5}
+			}
+		},
+		collision_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5,  -0.5,  -0.5, 0.5, -0.25, 0.5},
+				{-0.5, -0.25, -0.25, 0.5,     0, 0.5},
+				{-0.5,     0,     0, 0.5,  0.25, 0.5},
+				{-0.5,  0.25,  0.25, 0.5,   0.5, 0.5}
+			}
+		},
+		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		on_place = minetest.rotate_node,
+		sounds = default.node_sound_wood_defaults()
+	})
+
+	minetest.register_node("cg_decor:metal_roof_"..color.."_corner", {
+		description = "Metal Roof Corner ("..desc..")",
+		drawtype = "mesh",
+		mesh = "cg_decor_metalroof_corner.obj",
+		tiles = {"(cg_decor_bg.png^[colorize:"..value..")^cg_decor_metalroof_overlay.png"..extra},
+		paramtype = "light",
+		paramtype2 = "facedir",
+		selection_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5,  -0.5,  -0.5,   0.5, -0.25, 0.5},
+				{-0.5, -0.25, -0.25,  0.25,     0, 0.5},
+				{-0.5,     0,     0,     0,  0.25, 0.5},
+				{-0.5,  0.25,  0.25, -0.25,   0.5, 0.5}
+			}
+		},
+		collision_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5,  -0.5,  -0.5,   0.5, -0.25, 0.5},
+				{-0.5, -0.25, -0.25,  0.25,     0, 0.5},
+				{-0.5,     0,     0,     0,  0.25, 0.5},
+				{-0.5,  0.25,  0.25, -0.25,   0.5, 0.5}
+			}
+		},
+		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		on_place = minetest.rotate_node,
+		sounds = default.node_sound_wood_defaults()
+	})
+
+	minetest.register_node("cg_decor:metal_roof_"..color.."_valley", {
+		description = "Metal Roof Valley ("..desc..")",
+		drawtype = "mesh",
+		mesh = "cg_decor_metalroof_valley.obj",
+		tiles = {"(cg_decor_bg.png^[colorize:"..value..")^cg_decor_metalroof_overlay.png"..extra},
+		paramtype = "light",
+		paramtype2 = "facedir",
+		selection_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5, -0.5,  -0.5,  0.5, -0.25, 0.5},
+				{-0.5, -0.5, -0.25,  0.5,     0, 0.5},
+				{-0.5, -0.5,  -0.5, 0.25,     0, 0.5},
+				{-0.5,    0,  -0.5,    0,  0.25, 0.5},
+				{-0.5,    0,     0,  0.5,  0.25, 0.5},
+				{-0.5, 0.25,  0.25,  0.5,   0.5, 0.5},
+				{-0.5, 0.25,  -0.5, -0.25,  0.5, 0.5},
+			}
+		},
+		collision_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5, -0.5,  -0.5,  0.5, -0.25, 0.5},
+				{-0.5, -0.5, -0.25,  0.5,     0, 0.5},
+				{-0.5, -0.5,  -0.5, 0.25,     0, 0.5},
+				{-0.5,    0,  -0.5,    0,  0.25, 0.5},
+				{-0.5,    0,     0,  0.5,  0.25, 0.5},
+				{-0.5, 0.25,  0.25,  0.5,   0.5, 0.5},
+				{-0.5, 0.25,  -0.5, -0.25,  0.5, 0.5},
+			}
+		},
+		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		on_place = minetest.rotate_node,
+		sounds = default.node_sound_wood_defaults()
+	})
+
+minetest.register_node("cg_decor:metal_roof_"..color.."_flat", {
+		description = "Metal Roof Flat ("..desc..")",
+		drawtype = "mesh",
+		mesh = "cg_decor_metalroof_flat.obj",
+		tiles = {"(cg_decor_bg.png^[colorize:"..value..")^cg_decor_metalroof_overlay.png"..extra},
+		paramtype = "light",
+		paramtype2 = "facedir",
+		selection_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5, -0.5,  -0.5,  0.5, -0.4, 0.5},
+			}
+		},
+		collision_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5, -0.5,  -0.5,  0.5, -0.4, 0.5},
+			}
+		},
+		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		on_place = minetest.rotate_node,
+		sounds = default.node_sound_wood_defaults()
+	})
+
+end
 
 minetest.register_craft({
 	output = 'cg_decor:floor_block_white 4',
@@ -99,7 +265,8 @@ local color_list = {
 	{"Black",         "#000000:200"},
 	{"Dark_grey",     "#202020:200"},
 	{"Grey",          "#b0b0b0:175"},
-	{"White",         "#ffffff:000"},
+	{"White",         "#ffffff:150"},
+	{"Orange",        "#a04000:185"},
 }
 
 local ore_list = {
@@ -115,6 +282,177 @@ for i in ipairs(color_list) do
 	local desc = color_list[i][1]
 	local color = desc:lower()
 	local value = color_list[i][2]
+
+	stairs.register_stair("carpeted_wood_"..color, "cg_decor:carpetblock_wood_"..color,
+		{snappy=2,choppy=2,oddly_breakable_by_hand=2,flammable=3},
+		{"cg_decor_carpet.png^[colorize:"..value,
+		"default_wood.png",
+		"default_wood.png",
+		"default_wood.png",
+		"default_wood.png",
+		"default_wood.png^(cg_decor_carpet_overlay.png^[colorize:"..value..")"},
+		"Carpeted Wooden Stair",
+		default.node_sound_defaults())
+
+	stairs.register_slab("carpeted_wood_"..color, "cg_decor:carpetblock_wood_"..color,
+		{snappy=2,choppy=2,oddly_breakable_by_hand=2,flammable=3},
+		{"cg_decor_carpet.png^[colorize:"..value,
+		"default_wood.png",
+		"default_wood.png^(cg_decor_carpet_overlay.png^[colorize:"..value..")",
+		"default_wood.png^(cg_decor_carpet_overlay.png^[colorize:"..value..")",
+		"default_wood.png^(cg_decor_carpet_overlay.png^[colorize:"..value..")",
+		"default_wood.png^(cg_decor_carpet_overlay.png^[colorize:"..value..")"},
+		"Carpeted Wooden Slab",
+		default.node_sound_defaults())
+
+	stairs.register_stair("carpeted_junglewood_"..color, "cg_decor:carpetblock_junglewood_"..color,
+		{snappy=2,choppy=2,oddly_breakable_by_hand=2,flammable=3},
+		{"cg_decor_carpet.png^[colorize:"..value,
+		"default_junglewood.png",
+		"default_junglewood.png",
+		"default_junglewood.png",
+		"default_junglewood.png",
+		"default_junglewood.png^(cg_decor_carpet_overlay.png^[colorize:"..value..")"},
+		"Carpeted Wooden Stair",
+		default.node_sound_defaults())
+
+	stairs.register_slab("carpeted_junglewood_"..color, "cg_decor:carpetblock_junglewood_"..color,
+		{snappy=2,choppy=2,oddly_breakable_by_hand=2,flammable=3},
+		{"cg_decor_carpet.png^[colorize:"..value,
+		"default_junglewood.png",
+		"default_junglewood.png^(cg_decor_carpet_overlay.png^[colorize:"..value..")",
+		"default_junglewood.png^(cg_decor_carpet_overlay.png^[colorize:"..value..")",
+		"default_junglewood.png^(cg_decor_carpet_overlay.png^[colorize:"..value..")",
+		"default_junglewood.png^(cg_decor_carpet_overlay.png^[colorize:"..value..")"},
+		"Carpeted Wooden Slab",
+		default.node_sound_defaults())
+
+	minetest.register_node("cg_decor:carpet_"..color, {
+		description = "Carpet layer ("..desc..")",
+		tiles = {"cg_decor_carpet.png^[colorize:"..value },
+		paramtype = "light",
+		drawtype = "nodebox",
+		paramtype2 = "facedir",
+		node_box = {
+			type = "fixed",
+			fixed = {-0.5, -0.5, -0.5, 0.5, -0.4875, 0.5
+		}},
+		groups = {choppy=2,oddly_breakable_by_hand=2,flammable=2},
+		sounds = default.node_sound_wood_defaults(),
+	})
+
+	minetest.register_node("cg_decor:carpetblock_"..color, {
+		description = "Carpet or drywall("..desc..")",
+		tiles = {"cg_decor_carpet.png^[colorize:"..value, "cg_decor_siding_wall.png" },
+		paramtype = "light",
+		drawtype = "nodebox",
+		node_box = {
+			type = "fixed",
+			fixed = {-0.5, -0.5, -0.5, 0.5, 0.5125, 0.5},
+		},
+		selection_box = {
+			type = "fixed",
+			fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+		},
+		groups = {choppy=2,oddly_breakable_by_hand=1,flammable=2},
+		sounds = default.node_sound_wood_defaults(),
+	})
+
+	minetest.register_node("cg_decor:carpetblock_wood_"..color, {
+		description = "Carpet on Wood ("..desc..")",
+		tiles = {"cg_decor_carpet.png^[colorize:"..value, "default_wood.png" },
+		paramtype = "light",
+		drawtype = "nodebox",
+		node_box = {
+			type = "fixed",
+			fixed = {-0.5, -0.5, -0.5, 0.5, 0.5125, 0.5},
+		},
+		selection_box = {
+			type = "fixed",
+			fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+		},
+		groups = {choppy=2,oddly_breakable_by_hand=1,flammable=2},
+		sounds = default.node_sound_wood_defaults(),
+	})
+
+	minetest.register_node("cg_decor:carpetblock_junglewood_"..color, {
+		description = "Carpet on Junglewood ("..desc..")",
+		tiles = {"cg_decor_carpet.png^[colorize:"..value, "default_junglewood.png" },
+		paramtype = "light",
+		drawtype = "nodebox",
+		node_box = {
+			type = "fixed",
+			fixed = {-0.5, -0.5, -0.5, 0.5, 0.5125, 0.5},
+		},
+		selection_box = {
+			type = "fixed",
+			fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+		},
+		groups = {choppy=2,oddly_breakable_by_hand=1,flammable=2},
+		sounds = default.node_sound_wood_defaults(),
+	})
+
+	minetest.register_node("cg_decor:siding_"..color, {
+		description = "Siding "..desc,
+		tiles = {"cg_decor_siding_top.png^[colorize:"..value, "cg_decor_siding_top.png^[colorize:"..value.."^[transformR180",
+				 "cg_decor_siding.png^[colorize:"..value, "cg_decor_siding.png^[colorize:"..value, 
+				 "cg_decor_siding_wall.png", "cg_decor_siding.png^[colorize:"..value},
+		paramtype = "light",
+		paramtype2 = "facedir",
+		drawtype = "nodebox",
+		node_box = {
+			type = "fixed",
+			fixed = {{-0.5, -0.5, -0.375, 0.5, 0.5, 0.5},
+					{-0.5, -0.459958, -0.4375, 0.5, -0.172287, -0.375},
+					{-0.5, 0.203899, -0.4375, 0.5, 0.5, -0.375},
+					{-0.5, -0.12803, -0.4375, 0.5, 0.165964, -0.375},
+		}},
+		selection_box = {
+			type = "fixed",
+			fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+		},
+		groups = {choppy=2,oddly_breakable_by_hand=1,flammable=2},
+		sounds = default.node_sound_wood_defaults(),
+	})
+
+	minetest.register_node("cg_decor:siding_"..color.."_insidecorner", {
+		description = "Siding inside corner"..desc,
+		tiles = {"cg_decor_siding.png^[colorize:"..value, "cg_decor_siding.png^[colorize:"..value, 
+				 "cg_decor_siding_wall.png", "cg_decor_siding.png^[colorize:"..value.."^(cg_decor_corner_overlay.png^[transformR180)",
+				 "cg_decor_siding_wall.png", "cg_decor_siding.png^[colorize:"..value.."^cg_decor_corner_overlay.png"},
+		paramtype = "light",
+		paramtype2 = "facedir",
+		groups = {choppy=2,oddly_breakable_by_hand=1,flammable=2},
+		sounds = default.node_sound_wood_defaults(),
+	})
+
+	minetest.register_node("cg_decor:siding_"..color.."_corner", {
+		description = "Siding corner "..desc,
+		tiles = {"cg_decor_siding_corner_top.png^[colorize:"..value, "cg_decor_siding_corner_top.png^[colorize:"..value.."^[transformR270", 
+				 "cg_decor_siding.png^[colorize:"..value.."^cg_decor_corner_overlay2.png",     "cg_decor_siding.png^[colorize:"..value.."^(cg_decor_corner_overlay.png^[transformR180)", 
+				 "cg_decor_siding.png^[colorize:"..value.."^(cg_decor_corner_overlay2.png^[transformR180)",     "cg_decor_siding.png^[colorize:"..value.."^cg_decor_corner_overlay.png"},
+		paramtype = "light",
+		paramtype2 = "facedir",
+		drawtype = "nodebox",
+		node_box = {
+			type = "fixed",
+			fixed = {{-0.375, -0.5, -0.375, 0.5, 0.5, 0.5},
+					{-0.375, -0.459958, -0.4375, 0.5, -0.172287, -0.375},
+					{-0.375, 0.203899, -0.4375, 0.5, 0.5, -0.375},
+					{-0.375, -0.12803, -0.4375, 0.5, 0.165964, -0.375},
+					{-0.4375, 0.203899, -0.4375, -0.375, 0.5, 0.5},
+					{-0.4375, -0.12803, -0.4375, -0.375, 0.165964, 0.5},
+					{-0.4375, -0.456797, -0.4375, -0.375, -0.172287, 0.5},
+					{-0.5, -0.5, -0.5, -0.3125, 0.5, -0.375}, 
+					{-0.5, -0.5, -0.5, -0.375, 0.5, -0.3125},
+		}},
+		selection_box = {
+			type = "fixed",
+			fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+		},
+		groups = {choppy=2,oddly_breakable_by_hand=1,flammable=2},
+		sounds = default.node_sound_wood_defaults(),
+	})
 
 	minetest.register_craft( {
 		type = "shapeless",
@@ -314,7 +652,25 @@ function cg_decor.register_tree(treename, tree_image, drop) --global tree regist
 	minetest.register_node("cg_decor:"..treename.."_tree_large", {
 		description = "Large "..treename.." tree",
 		drawtype = "plantlike",
-		visual_scale = 1.0,
+		visual_scale = 1.5,
+		tiles = {tree_image},
+		inventory_image = tree_image,
+		wield_image = tree_image,
+		paramtype = "light",
+		walkable = false,
+		is_ground_content = true,
+		selection_box = {
+			type = "fixed",
+			fixed = {-0.3, -0.5, -0.3, 0.3, 0.35, 0.3}
+		},
+		groups = {snappy=2,dig_immediate=3,flammable=2,attached_node=1},
+		sounds = default.node_sound_leaves_defaults(),
+	})
+
+	minetest.register_node("cg_decor:"..treename.."_tree_extralarge", {
+		description = "Extra large "..treename.." tree",
+		drawtype = "plantlike",
+		visual_scale = 1.9,
 		tiles = {tree_image},
 		inventory_image = tree_image,
 		wield_image = tree_image,
@@ -361,7 +717,7 @@ function cg_decor.register_tree(treename, tree_image, drop) --global tree regist
 		walkable = false,
 		climbable = true,
 		is_ground_content = false,
-		groups = {snappy=3, leafdecay=2, flammable=2, leaves=1},
+		groups = {snappy=3, leafdecay=3, flammable=2, leaves=1},
 		drop = {
 			max_items = 5,
 			items = {{items = {drop_lg},}}
@@ -389,7 +745,7 @@ function cg_decor.register_tree(treename, tree_image, drop) --global tree regist
 			local is_soil = minetest.get_item_group(nu, "soil")
 			if is_soil == 0 then
 				minetest.remove_node(pos)
-				minetest.spawn_item(pos, "cg_decor:"..treename)
+				minetest.spawn_item(pos, "cg_decor:"..treename.."_tree")
 				return
 			end
 	        if (node2.name == "air" or node2.name == "ignore") and (node3.name == "air" or node3.name == "ignore")
@@ -399,7 +755,7 @@ function cg_decor.register_tree(treename, tree_image, drop) --global tree regist
 	        	minetest.add_node({x = pos.x, y = pos.y+2, z = pos.z}, { name = "cg_decor:"..treename.."_leaves" })
 	        else
 	        	minetest.remove_node(pos)
-				minetest.spawn_item(pos, "cg_decor:"..treename)
+				minetest.spawn_item(pos, "cg_decor:"..treename.."_tree")
 	        	return
 	        end
 		end
@@ -418,7 +774,7 @@ function cg_decor.register_tree(treename, tree_image, drop) --global tree regist
 			local is_soil = minetest.get_item_group(nu, "soil")
 			if is_soil == 0 then
 				minetest.remove_node(pos)
-				minetest.spawn_item(pos, "cg_decor:"..treename.."_large")
+				minetest.spawn_item(pos, "cg_decor:"..treename.."_tree_large")
 				return
 			end
 	        if (node2.name == "air" or node2.name == "ignore") and (node3.name == "air" or node3.name == "ignore") 
@@ -428,7 +784,39 @@ function cg_decor.register_tree(treename, tree_image, drop) --global tree regist
 	        	minetest.add_node({x = pos.x, y = pos.y+2, z = pos.z}, { name = "cg_decor:"..treename.."_leaves_large" })
 	        else
 	        	minetest.remove_node(pos)
-				minetest.spawn_item(pos, "cg_decor:"..treename.."_large")
+				minetest.spawn_item(pos, "cg_decor:"..treename.."_tree_large")
+	        	return
+	        end
+		end
+	})
+
+	minetest.register_abm({
+		nodenames = {"cg_decor:"..treename.."_tree_extralarge"},
+		interval = 1,
+		chance = 1,
+		action = function(pos, node)
+			local nu =  minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name
+			local node2 = minetest.get_node({x = pos.x, y = pos.y+1, z = pos.z})
+			local node3 = minetest.get_node({x = pos.x, y = pos.y+2, z = pos.z})
+			local node4 = minetest.get_node({x = pos.x, y = pos.y+3, z = pos.z})
+			local node5 = minetest.get_node({x = pos.x, y = pos.y+4, z = pos.z})
+			local node6 = minetest.get_node({x = pos.x, y = pos.y+5, z = pos.z})
+			local is_soil = minetest.get_item_group(nu, "soil")
+			if is_soil == 0 then
+				minetest.remove_node(pos)
+				minetest.spawn_item(pos, "cg_decor:"..treename.."_tree_extralarge")
+				return
+			end
+	        if (node2.name == "air" or node2.name == "ignore") and (node3.name == "air" or node3.name == "ignore") 
+	        	and (node4.name == "air" or node4.name == "ignore") and (node5.name == "air" or node5.name == "ignore") 
+	        	and (node6.name == "air" or node6.name == "ignore") then
+	        	minetest.add_node(pos, { name = "cg_decor:tree_trunk_base" })
+	        	minetest.add_node({x = pos.x, y = pos.y+1, z = pos.z}, { name = "cg_decor:tree_trunk" })
+	        	minetest.add_node({x = pos.x, y = pos.y+2, z = pos.z}, { name = "cg_decor:tree_trunk" })
+	        	minetest.add_node({x = pos.x, y = pos.y+3, z = pos.z}, { name = "cg_decor:"..treename.."_leaves_large" })
+	        else
+	        	minetest.remove_node(pos)
+				minetest.spawn_item(pos, "cg_decor:"..treename.."_tree_extralarge")
 	        	return
 	        end
 		end
@@ -684,7 +1072,7 @@ minetest.register_node("cg_decor:tree_trunk", {
 		max_items = 1,
 		items = {{items = {'default:stick 2'},}}
 	},
-	groups = {snappy=3,flammable=2,leafdecay=1},
+	groups = {snappy=3,flammable=2,leafdecay=2},
 	sounds = default.node_sound_leaves_defaults(),
 })
 
@@ -858,8 +1246,10 @@ local air_node = minetest.get_content_id("air")
 local ignore_node = minetest.get_content_id("ignore")
 local tree_node = minetest.get_content_id("default:tree")
 local jtree_node = minetest.get_content_id("default:jungletree")
+local dleaf_node = minetest.get_content_id("default:leaves")
 local leaf_node = minetest.get_content_id("cg_decor:leaves")
 local jleaf_node = minetest.get_content_id("cg_decor:jungleleaves")
+local djleaf_node = minetest.get_content_id("default:jungleleaves")
 local apple_node = minetest.get_content_id("default:apple")
 
 function cg_decor.grow_tree(data, a, pos, is_apple_tree)
@@ -885,7 +1275,9 @@ function cg_decor.grow_tree(data, a, pos, is_apple_tree)
     end
     for tree_h = 0, height-1 do  
         local area_t = a:index(pos.x, pos.y+tree_h, pos.z)  
-        if data[area_t] == air_node or data[area_t] == leaf_node or data[area_t] == apple_node then
+        if data[area_t] == air_node or data[area_t] == rleaf_node or data[area_t] == ignore_node
+		or data[area_t] == leaf_node or data[area_t] == jleaf_node or data[area_t] == dleaf_node 
+		or data[area_t] == djleaf_node or data[area_t] == apple_node then
             data[area_t] = tree_node   
         end
     end
@@ -909,7 +1301,9 @@ function cg_decor.grow_jungletree(data, a, pos)
     end
     for tree_h = 0, height-1 do  
         local area_t = a:index(pos.x, pos.y+tree_h, pos.z)  
-        if data[area_t] == air_node or data[area_t] == jleaf_node then   
+        if data[area_t] == air_node or data[area_t] == rleaf_node or data[area_t] == ignore_node
+		or data[area_t] == leaf_node or data[area_t] == jleaf_node or data[area_t] == dleaf_node 
+		or data[area_t] == djleaf_node then    
             data[area_t] = jtree_node    
         end
     end
@@ -960,7 +1354,9 @@ function cg_decor.grow_redwood(data, a, pos)
     	for z_dir = -1, 1 do
     		if math.abs(x_dir) + math.abs(z_dir) == 1 then 
 		        local area_t = a:index(pos.x+x_dir, pos.y+tree_h, pos.z+z_dir)  
-		        if data[area_t] == air_node or data[area_t] == rleaf_node or data[area_t] ==  ignore_node then   
+		        if data[area_t] == air_node or data[area_t] == rleaf_node or data[area_t] == ignore_node
+		        or data[area_t] == leaf_node or data[area_t] == jleaf_node or data[area_t] == dleaf_node 
+		        or data[area_t] == djleaf_node then   
 		            data[area_t] = rtree_node    
 		        end
 		    elseif x_dir == 0 and z_dir == 0 and tree_h > 0 then
