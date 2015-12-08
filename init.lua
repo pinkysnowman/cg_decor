@@ -886,6 +886,7 @@ cg_decor.register_tree("dogwood", "cg_decor_dogwood_tree.png")
 cg_decor.register_tree("japanese_maple", "cg_decor_jp_maple_tree.png")
 cg_decor.register_tree("cherry", "cg_decor_cherry_tree.png", "cherry")
 cg_decor.register_tree("crape_myrtle", "cg_decor_crape_myrtle_tree.png")
+cg_decor.register_tree("african_tulip", "cg_decor_african_tulip_tree.png")
 
 cg_decor.register_bush("regular", 1.5)
 cg_decor.register_bush("blackberry", 1.5, "blackberry")
